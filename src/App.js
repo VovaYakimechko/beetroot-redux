@@ -1,4 +1,5 @@
 import React from "react";
+import ProductList from "./components/Product/ProductList";
 import {
   BrowserRouter as Router,
   Route,
@@ -21,6 +22,7 @@ function App() {
         <Switch>
           <Route path="/todo" component={Todo} />
           <Route path="/counter" component={Counter} />
+          <Route path="/product" component={ProductList} />
           <Redirect exact from="/" to="/todo" />
         </Switch>
       </Router>
