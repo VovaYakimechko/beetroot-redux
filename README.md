@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/VovaYakimechko/beetroot-redux.svg?style=svg)](https://circleci.com/gh/VovaYakimechko/beetroot-redux)
+[![CircleCI](https://circleci.com/gh/infernalmaster/broot-mix.svg?style=svg)](https://circleci.com/gh/infernalmaster/broot-mix)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

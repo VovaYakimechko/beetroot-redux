@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = `http://localhost:3004`;
+const BASE_URL = process.env.REACT_APP_SERVER_URL;
 
 const extractData = response => response.data;
 
