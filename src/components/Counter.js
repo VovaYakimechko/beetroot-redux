@@ -1,13 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import { increase, decrease } from "../ducks/counter";
-
+import "./counter.css";
 class Counter extends React.Component {
+
   render() {
+
     return (
-      <div>
+      <div className="counter" >
         <h1>ReduxCounter</h1>
-        {this.props.count}
+          <div>{this.props.count}</div>
 
         <button onClick={() => this.props.increase(10)}>+10</button>
         <button onClick={() => this.props.decrease(10)}>-10</button>
@@ -16,29 +18,15 @@ class Counter extends React.Component {
   }
 }
 
-export default connect(
-  state => ({
+function mapStateToProps(state) {
+  return {
     count: state.counter.count
-  }),
-  { increase, decrease }
+  };
+}
+
+const mapDispatchToProps = { increase, decrease };
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
 )(Counter);
-
-// import store from '../store'
-// export default class ConnectedCounter extends React.Component {
-//   componentDidMount() {
-//     store.subscribe(() => this.forceUpdate())
-//   }
-
-//   render() {
-//     return (
-//       <Counter
-//         // map state to props
-//         count={store.getState().counter.count}
-
-//         // map dispatch to props
-//         increase={() => store.dispatch(increase(10))}
-//         decrease={() => store.dispatch(decrease(10))}
-//       />
-//     );
-//   }
-// }

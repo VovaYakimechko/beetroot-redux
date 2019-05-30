@@ -1,51 +1,56 @@
 import React from "react";
 import { connect } from "react-redux";
+import { handleIsDone } from "../../ducks/todos";
+import { changeText } from "../../ducks/todos";
+import { showActive } from "../../ducks/todos";
+import { showAll } from "../../ducks/todos";
+import { deleteItem } from "../../ducks/todos";
+import "./List.css"
 import {
-  changeItemIsDone,
-  changeItemText,
-  filteredTodosSelector,
+  showDone,
+  filterTodos,
+  fetchList,
   isLoadingSelector,
-  errorMessageSelector,
-  deleteItem
+  errorMessageSelector
 } from "../../ducks/todos";
 
 class List extends React.Component {
   render() {
-    const {
-      filteredTodos,
-      changeItemIsDone,
-      changeItemText,
-      deleteItem,
-      isLoading,
-      errorMessage
-    } = this.props;
-
     return (
-      <div>
-        {isLoading && "Loading..."}
-        {errorMessage}
-        {filteredTodos.map(item => (
+      <div className="todo">
+          <div >
+        <button className="TodosListButtonItem" onClick={this.props.showActive}>Active</button>
+        <button className="TodosListButtonItem" onClick={this.props.showAll}>All</button>
+        <button className="TodosListButtonItem" onClick={this.props.showDone}>Done</button>
+        <button className="TodosListButtonItem" onClick={this.props.fetchList}>Load</button>
+          </div>
+        <div className="TodosListCountItem">
+          {filterTodos(this.props.list, this.props.filter).length} of{" "}
+          {this.props.list.length}{" "}
+        </div>
+        {this.props.isLoading && "Loading..."}
+        {this.props.errorMessage}
+        {filterTodos(this.props.list, this.props.filter).map(el => (
           <div
-            key={item.id}
+            key={el.id}
             style={{
-              textDecoration: item.isDone ? "line-through" : "none",
-              color: item.isDone ? "gray" : "black"
+              textDecoration: el.isDone ? "line-through" : "none"
             }}
           >
             <input
               type="checkbox"
-              checked={item.isDone}
-              onChange={e => changeItemIsDone(item.id, e.target.checked)}
+              checked={el.isDone}
+              onChange={e => this.props.handleIsDone(el.id, e.target.checked)}
             />
-
             <input
-              type="text"
-              value={item.text}
-              onChange={e => changeItemText(item.id, e.target.value)}
-            />
-            {item.text}
+                className="todosListInputElement"
+              value={el.text}
 
-            <button onClick={() => deleteItem(item.id)}>x</button>
+              onChange={e => this.props.changeText(el.id, e.target.value)}
+            />
+
+
+            <button className="TodosListButtonDelete" onClick={() => this.props.deleteItem(el.id)}>X</button>
           </div>
         ))}
       </div>
@@ -55,9 +60,19 @@ class List extends React.Component {
 
 export default connect(
   state => ({
-    filteredTodos: filteredTodosSelector(state),
+    list: state.todos.list,
+    filter: state.todos.filter,
     isLoading: isLoadingSelector(state),
     errorMessage: errorMessageSelector(state)
   }),
-  { changeItemIsDone, changeItemText, deleteItem }
+  {
+    handleIsDone,
+    changeText,
+    showActive,
+    showAll,
+    showDone,
+    filterTodos,
+    deleteItem,
+    fetchList
+  }
 )(List);

@@ -1,34 +1,38 @@
 {
   "products": [
     {
-      "name": "asdf",
+      "name": "Ноутбук HP 250 G6",
+      "description": "ноутбук",
+      "image": "https://i2.rozetka.ua/goods/7794319/copy_hp_4wu93es_5bb4e09a1e325_images_7794319908.jpg",
+      "id": 4
+    },
+    {
+      "name": "Ноутбук Acer Nitro 5 ",
       "description": "",
-      "id": "vTIB_kO"
+      "image": "https://i2.rozetka.ua/goods/11570507/copy_acer_nh_q3xeu_047_5ca318f0682c2_images_11570507672.jpg",
+      "id": 5
     },
     {
-      "name": "kjhkj",
+      "name": "Ноутбук Acer Nitro 5",
       "description": "",
-      "id": "Xmp1G6K"
-    },
-    {
-      "name": "quip",
-      "description": "asdf",
-      "id": "PS_Nch6"
-    },
-    {
-      "name": "19:42",
-      "id": "fhCf8eO"
+      "image": "https://i2.rozetka.ua/goods/7794319/copy_hp_4wu93es_5bb4e09a1e325_images_7794319908.jpg",
+      "id": 6
     }
   ],
   "todos": [
     {
-      "id": "1557853735483-0.030937361110408235",
-      "text": "text",
+      "id": "1559220099765-0.7218372197718437",
+      "text": "go to the gym",
       "isDone": false
     },
     {
-      "id": "1557855573775-0.013173725628162103",
-      "text": "asdfasdfasdfasdfasdf",
+      "id": "1559220128211-0.19111430193830992",
+      "text": "rest",
+      "isDone": false
+    },
+    {
+      "id": "1559233476076-0.4226565020942512",
+      "text": "jnnj",
       "isDone": false
     }
   ]

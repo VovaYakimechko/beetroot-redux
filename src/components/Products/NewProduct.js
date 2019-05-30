@@ -1,16 +1,13 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { saveNewProduct } from "../../ducks/products";
-
 import ProductForm from "./ProductForm";
-
+import "./NewProduct.css";
 class NewProduct extends React.Component {
   render() {
     return (
-      <div>
-        <h1>New product</h1>
-
+      <div className="NewProduct">
+        <h1 className="NewProductName">New product</h1>
         <ProductForm
           product={{ name: "", description: "" }}
           saveProduct={this.props.saveNewProduct}
@@ -23,6 +20,7 @@ class NewProduct extends React.Component {
 export default connect(
   null,
   {
-    saveNewProduct
+    saveNewProduct,
+
   }
-)(withRouter(NewProduct));
+)(NewProduct);

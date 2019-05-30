@@ -1,34 +1,27 @@
 import { createSelector } from "reselect";
 
 const appName = "rr2";
-export const moduleName = "products";
+const moduleName = "products";
+const prefix = `${appName}/${moduleName}`;
+const FETCH_LIST_REQUEST = `${prefix}/FETCH_LIST_REQUEST`;
+const FETCH_LIST_SUCCESS = `${prefix}/FETCH_LIST_SUCCESS`;
+const FETCH_LIST_FAILURE = `${prefix}/FETCH_LIST_FAILURE`;
 
-/**
- * Constants
- */
-const FETCH_LIST_REQUEST = `${appName}/${moduleName}/FETCH_LIST/REQUEST`;
-const FETCH_LIST_SUCCESS = `${appName}/${moduleName}/FETCH_LIST/SUCCESS`;
-const FETCH_LIST_FAILURE = `${appName}/${moduleName}/FETCH_LIST/FAILURE`;
+const FETCH_ONE_REQUEST = `${prefix}/FETCH_ONE_REQUEST`;
+const FETCH_ONE_SUCCESS = `${prefix}/FETCH_ONE_SUCCESS`;
+const FETCH_ONE_FAILURE = `${prefix}/FETCH_ONE_FAILURE`;
 
-const FETCH_ONE_REQUEST = `${appName}/${moduleName}/FETCH_ONE/REQUEST`;
-const FETCH_ONE_SUCCESS = `${appName}/${moduleName}/FETCH_ONE/SUCCESS`;
-const FETCH_ONE_FAILURE = `${appName}/${moduleName}/FETCH_ONE/FAILURE`;
+const SAVE_NEW_REQUEST = `${prefix}/SAVE_NEW_REQUEST`;
+const SAVE_NEW_SUCCESS = `${prefix}/SAVE_NEW_SUCCESS`;
+const SAVE_NEW_FAILURE = `${prefix}/SAVE_NEW_FAILURE`;
 
-const SAVE_NEW_REQUEST = `${appName}/${moduleName}/SAVE_NEW/REQUEST`;
-const SAVE_NEW_SUCCESS = `${appName}/${moduleName}/SAVE_NEW/SUCCESS`;
-const SAVE_NEW_FAILURE = `${appName}/${moduleName}/SAVE_NEW/FAILURE`;
+const SAVE_REQUEST = `${prefix}/SAVE_REQUEST`;
+const SAVE_SUCCESS = `${prefix}/SAVE_SUCCESS`;
+const SAVE_FAILURE = `${prefix}/SAVE_FAILURE`;
 
-const SAVE_REQUEST = `${appName}/${moduleName}/SAVE/REQUEST`;
-const SAVE_SUCCESS = `${appName}/${moduleName}/SAVE/SUCCESS`;
-const SAVE_FAILURE = `${appName}/${moduleName}/SAVE/FAILURE`;
-
-const DELETE_REQUEST = `${appName}/${moduleName}/DELETE/REQUEST`;
-const DELETE_SUCCESS = `${appName}/${moduleName}/DELETE/SUCCESS`;
-const DELETE_FAILURE = `${appName}/${moduleName}/DELETE/FAILURE`;
-
-/**
- * Action creator
- */
+const DELETE_ITEM_REQUEST = `${prefix}/DELETE_ITEM_REQUEST`;
+const DELETE_ITEM_SUCCESS = `${prefix}/DELETE_ITEM_SUCCESS`;
+const DELETE_ITEM_FAILURE = `${prefix}/DELETE_ITEM_FAILURE`;
 
 export const fetchProducts = page => async (dispatch, _getState, { api }) => {
   dispatch({
@@ -49,16 +42,12 @@ export const fetchProducts = page => async (dispatch, _getState, { api }) => {
     });
   }
 };
-
-export const fetchProduct = id => async (dispatch, _getState, { api }) => {
+export const fetchProduct = id => async (dispatch, getState, { api }) => {
   dispatch({
-    type: FETCH_ONE_REQUEST,
-    payload: id
+    type: FETCH_ONE_REQUEST
   });
-
   try {
     const data = await api.products.getOne(id);
-
     dispatch({
       type: FETCH_ONE_SUCCESS,
       payload: data
@@ -123,30 +112,17 @@ export const saveProduct = newProduct => async (
   }
 };
 
-export const deleteProduct = product => async (
-  dispatch,
-  _getState,
-  { api }
-) => {
-  dispatch({
-    type: DELETE_REQUEST
-  });
+export const deleteProduct = itemId => async (dispatch, getState, { api }) => {
+  dispatch({ type: DELETE_ITEM_REQUEST, payload: itemId });
 
   try {
-    await api.products.deleteOne(product);
-
-    dispatch({
-      type: DELETE_SUCCESS,
-      payload: product
-    });
-
-    return true;
+    const data = await api.products.deleteProduct(itemId);
+    dispatch({ type: DELETE_ITEM_SUCCESS, payload: itemId });
   } catch (error) {
     dispatch({
-      type: DELETE_FAILURE,
+      type: DELETE_ITEM_FAILURE,
       payload: error
     });
-    return false;
   }
 };
 
@@ -163,12 +139,6 @@ const defaultState = {
 
 export default function reducer(state = defaultState, action) {
   switch (action.type) {
-    case FETCH_LIST_REQUEST:
-      return {
-        ...state,
-        isLoading: true,
-        list: []
-      };
     case FETCH_LIST_SUCCESS:
       return {
         ...state,
@@ -178,34 +148,32 @@ export default function reducer(state = defaultState, action) {
         page: action.payload.page,
         limit: action.payload.limit
       };
-    case FETCH_ONE_REQUEST:
+    case FETCH_LIST_REQUEST:
       return {
         ...state,
-        isLoading: true,
-        one: null
+        isLoading: true
       };
     case FETCH_ONE_SUCCESS:
       return {
         ...state,
-        isLoading: false,
-        one: action.payload
+        one: action.payload,
+        isLoading: false
       };
+    case FETCH_ONE_REQUEST:
+      return {
+        ...state,
+        one: null,
+        isLoading: true
+      };
+
     default:
       return state;
   }
 }
-
-/**
- * Selectors
- */
 export const stateSelector = state => state[moduleName];
 export const productsSelector = createSelector(
   stateSelector,
   state => state.list
-);
-export const productSelector = createSelector(
-  stateSelector,
-  state => state.one
 );
 export const isLoadingSelector = createSelector(
   stateSelector,

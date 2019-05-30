@@ -1,7 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { withRouter } from "react-router-dom";
+import "./ProductForm.css";
 
 class ProductForm extends React.Component {
   render() {
@@ -29,19 +29,19 @@ class ProductForm extends React.Component {
         {({ isSubmitting }) => (
           <Form>
             <div>
-              <label>name</label>
+              <label className="ProductFormLabel">Name</label>
               <Field type="text" name="name" />
               <ErrorMessage name="name" component="div" />
             </div>
 
-            <div>
-              <label>description</label>
-              <Field type="text" name="description" />
-              <ErrorMessage name="description" component="div" />
-            </div>
 
+              <div>
+                  <label className="ProductFormLabel">Photo</label>
+                  <Field type="text" name="image" />
+                  <ErrorMessage name="image" component="div" />
+              </div>
             <div>
-              <button type="submit" disabled={isSubmitting}>
+              <button className="ProductFormBtn" type="submit" disabled={isSubmitting}>
                 Submit
               </button>
             </div>
@@ -51,9 +51,5 @@ class ProductForm extends React.Component {
     );
   }
 }
-ProductForm.propTypes = {
-  product: PropTypes.object,
-  saveProduct: PropTypes.func
-};
 
 export default withRouter(ProductForm);

@@ -1,5 +1,4 @@
 import reducer, {
-  moduleName,
   defaultState,
   fetchProducts,
   productsSelector
@@ -13,24 +12,17 @@ it("fetches products", async () => {
 
   const api = {
     products: {
-      getAll: () =>
-        Promise.resolve({
-          list: products
-        })
+      getAll: () => Promise.resolve({ list: products })
     }
   };
 
   const store = createStore(
-    combineReducers({ [moduleName]: reducer }),
-    { [moduleName]: defaultState },
+    combineReducers({ products: reducer }),
+    { products: defaultState },
     applyMiddleware(ReduxThunk.withExtraArgument({ api }))
   );
 
   await store.dispatch(fetchProducts());
 
-  console.log(store.getState());
-
-  const result = productsSelector(store.getState());
-
-  expect(result).toEqual(products);
+  expect(productsSelector(store.getState())).toEqual(products);
 });

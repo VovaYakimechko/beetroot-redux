@@ -1,0 +1,30 @@
+
+.TodosListButtonItem{
+    width: 8%;
+    background: orange;
+    border-color:orangered;
+    cursor: pointer;
+    margin: 10px;
+
+    font-weight: bold;
+}
+.TodosListCountItem{
+    color: orangered;
+    font-family: Jokerman, serif;
+}
+
+.todosListInputElement{
+    border: none;
+    margin: 10px;
+}
+.TodosListButtonDelete{
+    background: red;
+    border: none;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+}
+
+.todo{
+    text-align: center;
+}

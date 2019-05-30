@@ -1,40 +1,28 @@
 import React from "react";
+import { fetchProduct, isLoadingSelector } from "../../ducks/products";
+import { saveProduct } from "../../ducks/products";
 import { connect } from "react-redux";
-import {
-  fetchProduct,
-  saveProduct,
-  productSelector,
-  isLoadingSelector,
-  deleteProduct
-} from "../../ducks/products";
-
 import ProductForm from "./ProductForm";
+import "./EditProduct.css";
 
 class EditProduct extends React.Component {
   componentDidMount() {
     this.props.fetchProduct(this.props.match.params.id);
   }
 
-  deleteCurrentProduct = () => {
-    this.props.deleteProduct(this.props.product).then(isDeleted => {
-      if (isDeleted) this.props.history.push("/products");
-    });
-  };
-
   render() {
-    const { product, isLoading, saveProduct } = this.props;
+    const { product, isLoading } = this.props;
 
     if (isLoading) return <div>Loading...</div>;
 
     if (!product) return null;
-
     return (
-      <div>
-        <h1>EDIT {product.name}</h1>
-
-        <ProductForm product={product} saveProduct={saveProduct} />
-
-        <button onClick={this.deleteCurrentProduct}>delete</button>
+      <div className="EditProduct">
+        <h1 className="EditProductHead">Edit {product.name}</h1>
+        <ProductForm
+          product={this.props.product}
+          saveProduct={this.props.saveProduct}
+        />
       </div>
     );
   }
@@ -42,8 +30,11 @@ class EditProduct extends React.Component {
 
 export default connect(
   state => ({
-    product: productSelector(state),
+    product: state.products.one,
     isLoading: isLoadingSelector(state)
   }),
-  { fetchProduct, saveProduct, deleteProduct }
+  {
+    fetchProduct,
+    saveProduct
+  }
 )(EditProduct);

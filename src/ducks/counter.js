@@ -5,7 +5,7 @@ const INCREASE = "INCREASE";
 const DECREASE = "DECREASE";
 
 /**
- * Action Creators:
+ * Actions:
  */
 export function increase(number = 1) {
   return {
@@ -29,7 +29,7 @@ const defaultState = {
   count: 0
 };
 
-export default function reducer(state = defaultState, action) {
+export default function counterReducer(state = defaultState, action) {
   if (action.type === INCREASE) {
     return {
       ...state,
@@ -41,6 +41,5 @@ export default function reducer(state = defaultState, action) {
       count: state.count - action.payload
     };
   }
-
   return state;
 }

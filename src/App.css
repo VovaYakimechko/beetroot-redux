@@ -1,5 +1,16 @@
 .App {
-  text-align: center;
+  /*text-align: center;*/
+}
+
+a:-webkit-any-link{
+  text-decoration: none;
+  color:orangered;
+}
+a:hover{
+  /*transition-property: font-family;*/
+  /*transition-duration: 3s;*/
+  /*transition-delay: 0s;*/
+  /*font-family: Jokerman, serif;*/
 }
 
 .App-logo {
@@ -31,7 +42,21 @@
     transform: rotate(360deg);
   }
 }
+.mainMenu{
+  list-style: none;
+  text-align: center;
 
-.nav-link {
-  padding: 10px;
+
+}
+.mainMenu__item{
+  display: inline-block;
+  font-size: 18px;
+  font-family: "Jokerman", sans-serif;
+  line-height: 30px;
+  padding: 0 10px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  border: solid transparent 2px;
+  transition: 1s;
 }

@@ -1,14 +1,14 @@
 import React from "react";
+import "./ProductList.css"
 import { connect } from "react-redux";
 import {
   fetchProducts,
-  productsSelector,
   isLoadingSelector,
   totalPagesSelector
 } from "../../ducks/products";
-import qs from "query-string";
-
 import { Link } from "react-router-dom";
+
+import qs from "query-string";
 
 class ProductsList extends React.Component {
   componentDidMount() {
@@ -30,26 +30,25 @@ class ProductsList extends React.Component {
     let pages = new Array(this.props.totalPages)
       .fill(null)
       .map((_v, i) => i + 1);
-
+    if (this.props.isLoading) return <div>Loading...</div>;
     return (
-      <div>
-        <h1>
-          ProductsList <Link to="/products/new">New Product</Link>
-        </h1>
-
-        {this.props.isLoading && <div>Loading...</div>}
-
-        {this.props.products.map(product => (
-          <div key={product.id}>
-            <Link to={`/products/${product.id}`}>{product.name}</Link>{" "}
-            <Link to={`/products/${product.id}/edit`}>edit</Link>
+      <div className="ProductList">
+          <div>
+        <Link className="createNewForm" to={`/products/new`}>
+          Add new
+        </Link>
+          </div>
+        {this.props.list.map(el => (
+          <div className="ProductListItem" key={el.id}>
+              <div> <img src={el.image} alt={el.name} /></div>
+              <div className="ProductListName">  <Link to={`/products/${el.id}`}>{el.name}  </Link></div>
+              <Link to={`/products/${el.id}/edit`}><div className="ProductListEdit">   Edit</div></Link>
           </div>
         ))}
-
-        <div>
+        <div className="ProductListPages">
           {pages.map(p => (
             <Link key={p} to={`/products?page=${p}`}>
-              {p}
+              {p}{"        "}
             </Link>
           ))}
         </div>
@@ -60,9 +59,11 @@ class ProductsList extends React.Component {
 
 export default connect(
   state => ({
-    products: productsSelector(state),
+    list: state.products.list,
     isLoading: isLoadingSelector(state),
     totalPages: totalPagesSelector(state)
   }),
-  { fetchProducts }
+  {
+    fetchProducts
+  }
 )(ProductsList);

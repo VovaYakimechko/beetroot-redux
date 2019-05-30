@@ -22,13 +22,13 @@ export function getOne(id) {
 export function saveNew(product) {
   return axios.post(`${BASE_URL}/products`, product).then(extractData);
 }
-
 export function save(product) {
   return axios
     .put(`${BASE_URL}/products/${product.id}`, product)
     .then(extractData);
 }
-
-export function deleteOne(product) {
-  return axios.delete(`${BASE_URL}/products/${product.id}`);
+export function deleteProduct(itemId) {
+  return axios
+    .delete(`${BASE_URL}/products/${itemId}`)
+    .then(({ data }) => data);
 }

@@ -1,51 +1,60 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-  Link,
-  Redirect
-} from "react-router-dom";
-
 import "./App.css";
 
+import {
+    BrowserRouter as Router,
+    Route,
+    Link,
+    Switch,
+    Redirect
+} from "react-router-dom";
+
 import Counter from "./components/Counter";
-import Todo from "./components/Todo";
-import ProductsList from "./components/Products/ProductsList";
-import ShowProduct from "./components/Products/ShowProduct";
+import Index from "./components/Todo/index";
+import ProductList from "./components/Products/ProductList";
 import EditProduct from "./components/Products/EditProduct";
 import NewProduct from "./components/Products/NewProduct";
+import ProductShow from "./components/Products/ProductShow";
+import Login from "./components/Login";
+import requireAuth from "./components/requireAuth"
 
 function App() {
-  return (
-    <div className="App">
-      <h1>ver 1</h1>
-      <Router>
-        <nav>
-          <Link className="nav-link" to="/todo">
-            todo
-          </Link>
-          <Link className="nav-link" to="/counter">
-            counter
-          </Link>
-          <Link className="nav-link" to="/products">
-            products
-          </Link>
-        </nav>
-        {/* <Route exact path="/" component={Todo} /> */}
-        <Switch>
-          <Route path="/todo" component={Todo} />
-          <Route path="/counter" component={Counter} />
-          <Redirect exact from="/" to="/todo" />
+    return (
+        <div className="App">
+            <Router>
+                <nav>
+                    <ul className="mainMenu">
+                        <li className="mainMenu__item">
+                            <Link to="/counter">counter</Link>
+                        </li>
+                        <li className="mainMenu__item">
+                            <Link to="/todo/">todo</Link>
+                        </li>
+                        <li className="mainMenu__item">
+                            <Link to="/products/">products</Link>
+                        </li>
+                        <li className="mainMenu__item">
+                            <Link to="/login">login</Link>
+                        </li>
 
-          <Route path="/products/new" component={NewProduct} />
-          <Route path="/products/:id/edit" component={EditProduct} />
-          <Route path="/products/:id" component={ShowProduct} />
-          <Route path="/products" component={ProductsList} />
-        </Switch>
-      </Router>
-    </div>
-  );
+
+                    </ul>
+                </nav>
+
+                <Switch>
+                    <Route path="/login" component={Login}/>
+                    <Route path="/todo" component={requireAuth(Index)}/>
+                    <Route path="/counter" component={Counter}/>
+                    <Redirect exact from="/" to="/todo"/>
+
+                    <Route path="/products/new" component={requireAuth(NewProduct)}/>
+                    <Route path="/products/:id/edit" component={EditProduct}/>
+                    <Route path="/products/:id" component={requireAuth(ProductShow)}/>
+                    <Route path="/products" component={requireAuth(ProductList)}/>
+                </Switch>
+            </Router>
+        </div>
+    );
 }
 
 export default App;

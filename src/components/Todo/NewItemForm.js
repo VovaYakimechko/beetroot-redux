@@ -1,27 +1,34 @@
 import React from "react";
 import { connect } from "react-redux";
-import { changeNewItemText, addNewItem } from "../../ducks/todos";
+import { changeNewItemText } from "../../ducks/todos";
+import { addNewItem } from "../../ducks/todos";
+import "./NewItemForm.css";
 
-const NewItemForm = ({ newItemText, changeNewItemText, addNewItem }) => {
-  return (
-    <form
-      onSubmit={e => {
-        e.preventDefault();
-        addNewItem();
-      }}
-    >
-      <input
-        type="text"
-        value={newItemText}
-        onChange={e => changeNewItemText(e.target.value)}
-      />
-    </form>
-  );
-};
+class NewItemForm extends React.Component {
+  render() {
+    return (
+      <div className="NewItemForm">
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            this.props.addNewItem();
+          }}
+        >
+          <input
+              className="todoInputNew"
+            type="text"
+            value={this.props.newItemText}
+            onChange={e => this.props.changeNewItemText(e.target.value)}
+          />
+        </form>
+      </div>
+    );
+  }
+}
 
 export default connect(
-  ({ todos }) => ({
-    newItemText: todos.newItemText
+  state => ({
+    newItemText: state.todos.newItemText
   }),
-  { changeNewItemText, addNewItem }
+  { addNewItem, changeNewItemText }
 )(NewItemForm);

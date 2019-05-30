@@ -1,0 +1,12 @@
+.ProductShow{
+    text-align: center;
+}
+.ProductName{
+    text-align: center;
+}
+.ProductShowButton{
+    background: red;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
